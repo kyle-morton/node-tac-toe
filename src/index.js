@@ -2,10 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 
+// Display the location for each move in the format (col, row) in the move history list.
+// Bold the currently selected item in the move list.
+// ---- Rewrite Board to use two loops to make the squares instead of hardcoding them.
+// Add a toggle button that lets you sort the moves in either ascending or descending order.
+// When someone wins, highlight the three squares that caused the win.
+// ---- When no one wins, display a message about the result being a draw.
+
+
 function Square(props) {
   return (
     <button
-      className="square"
+      className='square'
       onClick={props.onClick}>
       {props.value}
     </button>
@@ -22,25 +30,23 @@ class Board extends React.Component {
     />;
   }
 
+  renderRow(i) {
+    return (
+      <div className="board-row">
+        {[0, 1, 2].map(columnIndex => (
+          this.renderSquare(i+columnIndex)
+        ))}
+      </div>
+    )
+  }
+
   render() {
 
     return (
       <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
+        {[0,1,2].map(rowIndex => (
+          this.renderRow(rowIndex*3)
+        ))}
       </div>
     );
   }
@@ -107,7 +113,14 @@ class Game extends React.Component {
     if (winner) {
       status = 'Winner: ' + winner;
     } else {
-      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+
+      const allSquaresFilled = currentBoard.squares.every(s => {
+        return s; 
+      });
+
+      status = allSquaresFilled 
+        ? 'Draw'
+        : 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
     }
 
     return (
@@ -116,6 +129,7 @@ class Game extends React.Component {
           <Board 
             squares={currentBoard.squares}
             onClick={(i) => this.handleClick(i)}
+            stepNumber={this.state.stepNumber}
           />
         </div>
         <div className="game-info">
