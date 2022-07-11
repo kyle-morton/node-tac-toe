@@ -37,7 +37,7 @@ body {
   }
 
   .square.highlight {
-    border: 1px solid red;
+    background: red;
   }
 
   li.highlight {
