@@ -39,6 +39,11 @@ body {
   .square.highlight {
     border: 1px solid red;
   }
+
+  li.highlight {
+    color: red;
+    font-weight:bold;
+  }
   
   .kbd-navigation .square:focus {
     background: #ddd;

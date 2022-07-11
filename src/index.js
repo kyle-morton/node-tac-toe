@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 // Display the location for each move in the format (col, row) in the move history list.
-// Bold the currently selected item in the move list.
+// ---- Bold the currently selected item in the move list.
 // ---- Rewrite Board to use two loops to make the squares instead of hardcoding them.
 // Add a toggle button that lets you sort the moves in either ascending or descending order.
 // When someone wins, highlight the three squares that caused the win.
@@ -27,12 +27,13 @@ class Board extends React.Component {
     return <Square
       value={squareValue}
       onClick={() => this.props.onClick(i)}
+      key={i}
     />;
   }
 
   renderRow(i) {
     return (
-      <div className="board-row">
+      <div className="board-row" key={i}>
         {[0, 1, 2].map(columnIndex => (
           this.renderSquare(i+columnIndex)
         ))}
@@ -95,15 +96,18 @@ class Game extends React.Component {
 
     const history = this.state.history;
     const currentBoard = history[this.state.stepNumber];
+    const currentStep = this.state.stepNumber;
 
     const winner = calculateWinner(currentBoard.squares);
     const moves = history.map((step, move) => {
       const desc = move 
         ? 'Go to move #' + move
         : 'Go to game start';
+
+        console.log('current step/step: ' + currentStep + '/' + move);
         
         return (
-          <li key={move}>
+          <li key={move} className={currentStep === move ? 'highlight' : ''}>
             <button onClick={() => this.jumpTo(move)}>{desc}</button>
           </li>
         );
