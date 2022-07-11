@@ -11,7 +11,6 @@ import './index.css';
 
 
 function Square(props) {
-  console.log('props: ' + props.highlight);
   return (
     <button
       className={'square ' + (props.highlight ? 'highlight' : '')}
@@ -26,7 +25,6 @@ class Board extends React.Component {
   renderSquare(i) {
     let squareValue = this.props.squares[i];
     let isPartOfWinningMove = this.props.winningMove && this.props.winningMove.some(s => s === i);
-    console.log('is part of winning move: ' + i + '/' + isPartOfWinningMove);
     return <Square
       value={squareValue}
       onClick={() => this.props.onClick(i)}
